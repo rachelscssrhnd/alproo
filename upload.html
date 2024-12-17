@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload Interface</title>
+    <link rel="stylesheet" href="css/upload.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+</head>
+<body>
+    <!-- Navigation Bar with animation -->
+    <nav data-aos="fade-down">
+        <div class="logo">
+            <img src="img/logo.png" alt="Logo" />
+        </div>
+        <ul>
+            <li><a href="index.html#home">Home</a></li>
+            <li><a href="index.html#aboutus">About Us</a></li>
+            <li><a href="index.html#testimonial">Testimonials</a></li>
+            <li><a href="index.html#contact">Contact Us</a></li>
+        </ul>
+        <a href="https://wa.me/6281357052191" target="_blank" class="contact-btn">Contact Us</a>
+    </nav>    
+
+    <div class="container" data-aos="fade-up">
+        <!-- Image Preview Section -->
+        <div class="image-preview-container">
+            <div class="image-preview-box" id="lwPreview">Image Preview</div>
+            <div class="image-preview-box" id="hPreview">Image Preview</div>
+        </div>
+    
+        <!-- Form Section -->
+        <form id="uploadForm">
+            <!-- Image Upload for Length & Width -->
+            <label for="lengthWidthImage">Upload Image for Length & Width:</label>
+            <input type="file" id="lengthWidthImage" name="length_width_image" accept="image/*" required>
+        
+            <!-- Image Upload for Height -->
+            <label for="heightImage">Upload Image for Height:</label>
+            <input type="file" id="heightImage" name="height_image" accept="image/*" required>
+        
+            <!-- Unit Selection Dropdown -->
+            <label for="unitSelect">Select Measurement Unit:</label>
+            <select id="unitSelect" name="unit" required>
+                <option value="mm">Millimeters (mm)</option>
+                <option value="cm">Centimeters (cm)</option>
+                <option value="m">Meters (m)</option>
+                <option value="inches">Inches</option>
+            </select>
+
+            <!-- Submit Button -->
+            <button type="submit" id="submitButton">Submit</button>
+        </form>
+    </div>
+    
+    <script>
+        const lwInput = document.getElementById('lengthWidthImage');
+        const hInput = document.getElementById('heightImage');
+        const lwPreviewDiv = document.getElementById('lwPreview');
+        const hPreviewDiv = document.getElementById('hPreview');
+
+        // Function to show image preview
+        function showImagePreview(file, previewDiv) {
+            previewDiv.innerHTML = "Image Preview"; // Reset placeholder text
+
+            if (file) {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.alt = "Image Preview";
+                img.style.maxWidth = "100%";
+                img.style.height = "auto";
+
+                previewDiv.style.color = "transparent"; // Hide placeholder text
+                previewDiv.appendChild(img);
+            } 
+        }
+
+        // Event listener for Length & Width Image input
+        lwInput.addEventListener('change', function () {
+            showImagePreview(lwInput.files[0], lwPreviewDiv);
+        });
+
+        // Event listener for Height Image input
+        hInput.addEventListener('change', function () {
+            showImagePreview(hInput.files[0], hPreviewDiv);
+        });
+
+        // Form submit event
+        document.getElementById('uploadForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const lengthWidthImage = lwInput.files[0];
+            const heightImage = hInput.files[0];
+
+            // Save files temporarily in localStorage as base64
+            const reader1 = new FileReader();
+            const reader2 = new FileReader();
+
+            reader1.onload = function () {
+                localStorage.setItem('lengthWidthImage', reader1.result);
+
+                reader2.onload = function () {
+                    localStorage.setItem('heightImage', reader2.result);
+
+                    // Redirect to result.html after saving data
+                    window.location.href = 'result.html';
+                };
+                reader2.readAsDataURL(heightImage);
+            };
+
+            reader1.readAsDataURL(lengthWidthImage);
+        });
+    </script>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-in-out',
+            once: false
+        });
+    </script>
+</body>
+</html>

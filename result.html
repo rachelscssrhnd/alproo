@@ -14,10 +14,10 @@
             <img src="img/logo.png" alt="Logo" />
         </div>
         <ul>
-            <li><a href="landing.html#home">Home</a></li>
-            <li><a href="landing.html#aboutus">About Us</a></li>
-            <li><a href="landing.html#testimonial">Testimonials</a></li>
-            <li><a href="landing.html#contact">Contact Us</a></li>
+            <li><a href="index.html#home">Home</a></li>
+            <li><a href="index.html#aboutus">About Us</a></li>
+            <li><a href="index.html#testimonial">Testimonials</a></li>
+            <li><a href="index.html#contact">Contact Us</a></li>
         </ul>
         <a href="https://wa.me/6281357052191" target="_blank" class="contact-btn">Contact Us</a>
     </nav>    
@@ -61,25 +61,28 @@
     </div>
 
     <script>
-        // Get values from localStorage
-        const lengthWidthImage = localStorage.getItem('lengthWidthImage');
-        const heightImage = localStorage.getItem('heightImage');
-        const unit = localStorage.getItem('unit');
-        
-        // Calculate dimensions (mock values for now)
-        const length = 150; // Mock dimension value (replace with actual calculation)
-        const width = 100;  // Mock dimension value (replace with actual calculation)
-        const height = 50;  // Mock dimension value (replace with actual calculation)
-        
+        // Get values from the URL query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+
+        const length = urlParams.get('length');
+        const width = urlParams.get('width');
+        const height = urlParams.get('height');
+        const unit = urlParams.get('unit');
+        const recommendedPackage = urlParams.get('package_category');
+        const boundingBoxImage = urlParams.get('bounding_box_image');
+
         // Display the dimensions and unit
         document.getElementById('length').textContent = `${length} ${unit}`;
         document.getElementById('width').textContent = `${width} ${unit}`;
         document.getElementById('height').textContent = `${height} ${unit}`;
         document.getElementById('unit').textContent = unit;
         
-        // Calculate and display recommended package (mock recommendation for now)
-        const recommendedPackage = (length * width * height) > 50000 ? 'Large Box' : 'Medium Box';
+        // Display recommended package
         document.getElementById('recommended-package').textContent = recommendedPackage;
+
+        // Display bounding box image
+        const boxImageUrl = `http://127.0.0.1:5000/static/results/${boundingBoxImage}`;
+        document.getElementById('box-image').src = boxImageUrl;
     </script>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
