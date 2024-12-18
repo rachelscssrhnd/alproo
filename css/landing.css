@@ -53,6 +53,7 @@ ul li a {
 }
 
 .contact-btn {
+    text-decoration: none;
     background-color: #224AB4;
     color: white;
     border: none;
@@ -105,6 +106,7 @@ ul li a {
 }
 
 .hero-content .btn-primary {
+    text-decoration: none;
     display: inline-block;
     background-color: #3D4D8C;
     color: #fff;
@@ -153,6 +155,39 @@ ul li a {
     margin-right: auto;
 }
 
+/* About Us Section */
+.team-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.team-member {
+    text-align: center;
+    max-width: 200px;
+}
+
+.team-member img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.team-member h4 {
+    font-size: 18px;
+    margin: 5px 0;
+    color: #333;
+}
+
+.team-member p {
+    font-size: 16px;
+    color: #555;
+}
+
+
+
 /* Testimonial Section */
 #testimonial {
     text-align: center;
@@ -195,20 +230,25 @@ ul li a {
     padding: 40px;
     border-radius: 20px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* Padding dihitung dalam ukuran box */
 }
 
 .testimonial-content {
     display: flex;
     align-items: center;
     text-align: left;
+    padding: 0 20px; /* Tambahkan padding horizontal */
 }
+
 
 .client-photo {
     width: 120px;
     height: 120px;
     border-radius: 50%;
     margin-right: 20px;
+    object-fit: cover; /* Memastikan gambar tetap proporsional */
 }
+
 
 .testimonial-text p {
     margin: 10px 0;
