@@ -1,159 +1,106 @@
-/* Global Reset */
-* {
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-
-/* Body Styling */
-body {
-    background: linear-gradient(to right, #0b1e58, #153a8a, #1e4aa3);
-    color: #fff;
-    line-height: 1.8;
-    background-size: cover;
-}
-
-/* Navbar Styling */
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background: #fff;
-    color: #333;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-body {
-    padding-top: 60px; /* To offset for the fixed navbar */
-}
-
-.logo img {
-    height: 40px; /* Adjust the height as needed */
-    width: auto; /* Maintain the aspect ratio */
-    display: block;
-}
-
-ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-}
-
-ul li a {
-    text-decoration: none;
-    color: #333;
-    font-size: 1.1em;
-}
-
-.contact-btn {
-    background-color: #224AB4;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.contact-btn:hover {
-    background-color: #173A7A;
 }
 
 /* Container Styling */
 .container {
-    margin: 80px auto;
-    width: 80%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Form Styling */
+form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+form input,
+form select,
+form button {
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form button {
+    background-color: #008CBA;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #005f73;
+}
+
+.loading {
+    font-size: 16px;
+    color: #008CBA;
+}
+
+/* Image Preview Box */
+.image-preview-container {
     display: flex;
     justify-content: space-between;
-    gap: 20px;
-}
-
-/* Form Section */
-form {
-    width: 50%;
-    display: flex;
-    flex-direction: column; /* Stack the form elements vertically */
-    gap: 20px; /* Spacing between form elements */
-}
-
-/* Input group */
-.input-group {
     margin-bottom: 20px;
+    gap: 10px;
 }
 
-label {
+.image-preview-box {
+    width: 48%;
+    padding: 10px;
+    border: 2px dashed #ccc;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 14px;
+    color: #ccc;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    aspect-ratio: 1; /* Locks the aspect ratio to a square */
+}
+
+.image-preview-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Prevents distortion */
     display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
 }
 
-input[type="file"] {
+/* Result Section */
+#result {
+    margin-top: 20px;
+}
+
+#result h2 {
+    font-size: 20px;
     margin-bottom: 10px;
 }
 
-/* Units Section */
-.units {
-    margin-bottom: 20px;
+#result p {
+    font-size: 16px;
+    margin: 5px 0;
 }
 
-select {
-    padding: 5px;
-    font-size: 1rem;
-}
-
-/* Submit Button Styling */
-button#submitButton {
-    background-color: #28a745;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-button#submitButton:hover {
-    background-color: #218838;
-}
-
-/* Image Preview Section */
-/* Container for the two preview boxes */
-.image-preview-container {
-    display: flex; /* Arrange boxes horizontally */
-    gap: 20px; /* Space between the boxes */
-    justify-content: space-between; /* Evenly distribute the boxes */
-    width: 100%;
-}
-
-/* Styling for preview box */
-.image-preview-box {
-    flex: 1; /* Ensures both boxes are side by side */
-    aspect-ratio: 1; /* Keeps the preview box square */
-    background: rgba(255, 255, 255, 0.3);
-    display: flex;
-    justify-content: center; /* Horizontally center the image */
-    align-items: center; /* Vertically center the image */
-    border-radius: 10px;
-    border: 2px dashed #fff;
-    overflow: hidden;
-    color: #fff;
-    font-size: 1.1rem;
-    font-weight: bold;
-    position: relative;
-    padding: 10px; /* Add padding to create space around the image */
-}
-
-/* Ensure image fills the box without distorting aspect ratio */
-.image-preview-box img {
-    width: 100%; /* Make sure the image fills the entire width */
-    height: 100%; /* Make sure the image fills the entire height */
-    object-fit: contain; /* Image will fit the box without cutting off or distorting */
-    display: block; /* Prevent unwanted margins */
-    margin: 0; /* Remove any margins that might shift the image */
+/* Boxes Model Image */
+#result img {
+    max-width: 300px; /* Limit the size of the box model image */
+    margin: 20px 0;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    object-fit: contain; /* Maintains proportions */
 }
