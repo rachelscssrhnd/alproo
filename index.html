@@ -57,7 +57,29 @@
                 The model can be implemented into e-commerce company software to assist human employees <br>
                 in selecting the appropriate packaging size, making it faster and easier to fulfill orders.
             </p>
+            <div class="team-container">
+                <!-- Team Member 1 -->
+                <div class="team-member">
+                    <img src="img/team1.jpg" alt="Muhammad Fazil Irvan Putra">
+                    <h4>Muhammad Fazil Irvan Putra</h4>
+                    <p>NIM. 164231022</p>
+                </div>
+                <!-- Team Member 2 -->
+                <div class="team-member">
+                    <img src="img/team2.jpg" alt="Rachel Sunarko">
+                    <h4>Rachel Sunarko</h4>
+                    <p>NIM. 164231025</p>
+                </div>
+                <!-- Team Member 3 -->
+                <div class="team-member">
+                    <img src="img/team3.jpg" alt="Muhammad Aqeela Bagus P.">
+                    <h4>Muhammad Aqeela Bagus P.</h4>
+                    <p>NIM. 164231054</p>
+                </div>
+            </div>
+        </div>
     </section>
+
 
 
     <!-- Testimonial Section -->
@@ -70,9 +92,9 @@
                 <!-- Testimonial 1 -->
                 <div class="testimonial-card active">
                     <div class="testimonial-content">
-                        <img src="profile1.jpg" alt="Client" class="client-photo">
+                        <img src="img/profile1.jpg" alt="Client" class="client-photo">
                         <div class="testimonial-text">
-                            <p>“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.”</p>
+                            <p>“PackMe has revolutionized how we handle our e-commerce shipments. It’s simple to use and ensures we always choose the perfect packaging size. This has significantly reduced our shipping costs!”</p>
                             <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
                             <h4>Marry Welsom</h4>
                             <p class="job-title">Logistic Manager</p>
@@ -82,7 +104,7 @@
                 <!-- Testimonial 2 -->
                 <div class="testimonial-card">
                     <div class="testimonial-content">
-                        <img src="profile2.jpg" alt="Client" class="client-photo">
+                        <img src="img/profile2.jpg" alt="Client" class="client-photo">
                         <div class="testimonial-text">
                             <p>“Excellent service and fast responses! Highly recommended.”</p>
                             <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
@@ -94,7 +116,7 @@
                 <!-- Testimonial 3 -->
                 <div class="testimonial-card">
                     <div class="testimonial-content">
-                        <img src="profile3.jpg" alt="Client" class="client-photo">
+                        <img src="img/profile3.jpg" alt="Client" class="client-photo">
                         <div class="testimonial-text">
                             <p>“A very reliable solution for our logistic needs!”</p>
                             <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
@@ -122,20 +144,20 @@
             <h2>Let’s Connect with us!<br>Discuss for grow ...</h2>
             <p>Thank you for getting in touch! Kindly, Fill the form, have a great day!</p>
         </div>
-        <form class="contact-form">
-            <input type="text" placeholder="Your Name" required>
-            <input type="email" placeholder="Your Email" required>
-            <input type="tel" placeholder="Phone Number" required>
-            <input type="text" placeholder="Country" required>
-            <input type="text" placeholder="Company Name" required>
-            <select>
+        <form id="contact-form" class="contact-form">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <input type="tel" name="phone" placeholder="Phone Number" required>
+            <input type="text" name="country" placeholder="Country" required>
+            <input type="text" name="company" placeholder="Company Name" required>
+            <select name="interest">
                 <option>Interested in</option>
                 <option>Package Solutions</option>
                 <option>Consultation</option>
             </select>
-            <textarea rows="4" placeholder="Message"></textarea>
+            <textarea name="message" rows="4" placeholder="Message"></textarea>
             <button type="submit">Send Message</button>
-        </form>
+        </form>        
     </section>
 
 <!-- Contact Us Section -->
@@ -212,6 +234,69 @@
             updateSlide();
         });
     });
+    
+    // Tangani pengiriman formulir
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Mencegah pengiriman default form
+
+        const formData = new FormData(this);
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value; // Ambil data dari form dan masukkan ke dalam objek data
+        });
+
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyvS_iD8t7Buds1xJ5i44FIdBoRuOKEbkTsPbbYbiULhwRghsMKIY3g-C4DWFm9_5R7/exec'; // URL Google Apps Script Anda
+
+        fetch(scriptURL, {
+            method: 'POST',
+            body: JSON.stringify(data), // Mengirim data sebagai JSON
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.result === 'Success') {
+                alert('Message sent successfully!');
+                document.getElementById('contact-form').reset(); // Reset form setelah sukses
+            } else {
+                alert('There was an error, please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('There was an error, please try again.');
+        });
+    });
+
+
+    function doPost(e) {
+        try {
+            // Pastikan ada data yang dikirim
+            if (e.postData.contents) {
+                var data = JSON.parse(e.postData.contents);
+
+                // Menambahkan data ke baris baru di spreadsheet
+                var sheet = SpreadsheetApp.openById('1ajZ7Jh6ZQO2mhIF75XicBfW42YgIdBrrz8ywVplSTKU').getSheetByName('Sheet1');
+                sheet.appendRow([
+                    data.name,
+                    data.email,
+                    data.phone,
+                    data.country,
+                    data.company,
+                    data.interest,
+                    data.message,
+                    new Date()
+                ]);
+
+                return ContentService.createTextOutput(JSON.stringify({ result: 'Success' }))
+                    .setMimeType(ContentService.MimeType.JSON);
+            } else {
+                throw new Error('No data received');
+            }
+        } catch (error) {
+            return ContentService.createTextOutput(JSON.stringify({ result: 'Error', message: error.message }))
+                .setMimeType(ContentService.MimeType.JSON);
+        }
+    }
+
 </script>
 
 </html>
