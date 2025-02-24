@@ -22,13 +22,13 @@
         <a href="https://wa.me/6281357052191" target="_blank" class="contact-btn">Contact Us</a>
     </nav>
 
-    <div class="container">
+    <div class="container" data-aos="fade-up">
         <!-- Image Preview Section -->
         <div class="image-preview-container">
             <div class="image-preview-box" id="lwPreview">Length & Width Image Preview</div>
             <div class="image-preview-box" id="hPreview">Height Image Preview</div>
         </div>
-    
+
         <!-- Form Section -->
         <form id="uploadForm">
             <!-- Image Upload for Length & Width -->
@@ -50,9 +50,11 @@
 
             <!-- Submit Button -->
             <button type="submit" id="submitButton">Submit</button>
-        </form>
-        <div id="result"></div>        
+        </form>     
     </div>
+
+    <div id="result"></div>
+
     
     <script>
         const lwInput = document.getElementById('lengthWidthImage');
