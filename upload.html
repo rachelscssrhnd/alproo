@@ -20,13 +20,13 @@
             <li><a href="index.html#contact">Contact Us</a></li>
         </ul>
         <a href="https://wa.me/6281357052191" target="_blank" class="contact-btn">Contact Us</a>
-    </nav>    
+    </nav>
 
-    <div class="container" data-aos="fade-up">
+    <div class="container">
         <!-- Image Preview Section -->
         <div class="image-preview-container">
-            <div class="image-preview-box" id="lwPreview">Image Preview</div>
-            <div class="image-preview-box" id="hPreview">Image Preview</div>
+            <div class="image-preview-box" id="lwPreview">Length & Width Image Preview</div>
+            <div class="image-preview-box" id="hPreview">Height Image Preview</div>
         </div>
     
         <!-- Form Section -->
@@ -39,18 +39,19 @@
             <label for="heightImage">Upload Image for Height:</label>
             <input type="file" id="heightImage" name="height_image" accept="image/*" required>
         
-            <!-- Unit Selection Dropdown -->
-            <label for="unitSelect">Select Measurement Unit:</label>
-            <select id="unitSelect" name="unit" required>
-                <option value="mm">Millimeters (mm)</option>
-                <option value="cm">Centimeters (cm)</option>
-                <option value="m">Meters (m)</option>
+            <!-- Measurement Unit Selection -->
+            <label for="unit">Select Measurement Unit:</label>
+            <select id="unit" name="unit" required>
+                <option value="cm">Centimeters</option>
+                <option value="mm">Millimeters</option>
+                <option value="m">Meters</option>
                 <option value="inches">Inches</option>
             </select>
 
             <!-- Submit Button -->
             <button type="submit" id="submitButton">Submit</button>
         </form>
+        <div id="result"></div>        
     </div>
     
     <script>
@@ -58,67 +59,91 @@
         const hInput = document.getElementById('heightImage');
         const lwPreviewDiv = document.getElementById('lwPreview');
         const hPreviewDiv = document.getElementById('hPreview');
+        const submitButton = document.getElementById('submitButton');
+        const resultDiv = document.getElementById('result');
 
         // Function to show image preview
         function showImagePreview(file, previewDiv) {
-            previewDiv.innerHTML = "Image Preview"; // Reset placeholder text
+            previewDiv.innerHTML = ""; // Clear previous content
 
             if (file) {
                 const img = document.createElement('img');
-                img.src = URL.createObjectURL(file);
+                img.src = URL.createObjectURL(file); // Load the image
                 img.alt = "Image Preview";
-                img.style.maxWidth = "100%";
-                img.style.height = "auto";
 
-                previewDiv.style.color = "transparent"; // Hide placeholder text
+                // Add image to the preview box
                 previewDiv.appendChild(img);
-            } 
+
+                previewDiv.style.border = "2px dashed #008CBA"; // Example active border color
+                previewDiv.style.color = "transparent"; // Hide placeholder text
+            } else {
+                previewDiv.style.color = "#008CBA"; // Show placeholder text
+                previewDiv.innerHTML = "Image Preview";
+            }
         }
 
-        // Event listener for Length & Width Image input
+        // Event listeners for input changes
         lwInput.addEventListener('change', function () {
             showImagePreview(lwInput.files[0], lwPreviewDiv);
         });
 
-        // Event listener for Height Image input
         hInput.addEventListener('change', function () {
             showImagePreview(hInput.files[0], hPreviewDiv);
         });
 
-        // Form submit event
-        document.getElementById('uploadForm').addEventListener('submit', function (e) {
+        // Event listener for form submission
+        document.getElementById('uploadForm').addEventListener('submit', async function (e) {
             e.preventDefault();
 
             const lengthWidthImage = lwInput.files[0];
             const heightImage = hInput.files[0];
+            const unit = document.getElementById('unit').value; // Get selected unit
+            
+            const formData = new FormData();
+            formData.append('length_width_image', lengthWidthImage);
+            formData.append('height_image', heightImage);
+            formData.append('unit', unit); // Add selected unit to the form data
 
-            // Save files temporarily in localStorage as base64
-            const reader1 = new FileReader();
-            const reader2 = new FileReader();
+            resultDiv.innerHTML = '<div class="loading">Loading... Please wait.</div>';
+            submitButton.disabled = true;
 
-            reader1.onload = function () {
-                localStorage.setItem('lengthWidthImage', reader1.result);
+            try {
+                const response = await fetch('http://127.0.0.1:5000/predict', {
+                    method: 'POST',
+                    body: formData,
+                });
 
-                reader2.onload = function () {
-                    localStorage.setItem('heightImage', reader2.result);
+                if (!response.ok) {
+                    throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
+                }
 
-                    // Redirect to result.html after saving data
-                    window.location.href = 'result.html';
-                };
-                reader2.readAsDataURL(heightImage);
-            };
-
-            reader1.readAsDataURL(lengthWidthImage);
-        });
-    </script>
-
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init({
-            duration: 1000,
-            easing: 'ease-in-out',
-            once: false
+                const data = await response.json();
+                resultDiv.innerHTML = `
+                    <h2>Dimensions:</h2>
+                    <p><strong>Length:</strong> ${data.length} ${unit}</p>
+                    <p><strong>Width:</strong> ${data.width} ${unit}</p>
+                    <p><strong>Height:</strong> ${data.height} ${unit}</p>
+                    <p><strong>Recommended Package:</strong> ${data.package_category}</p>
+                    <h3>Boxes Model:</h3>
+                    <div>
+                        <img src="img/model-boxes.jpg" alt="${data.package_category}">
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+            } finally {
+                submitButton.disabled = false;
+            }
         });
     </script>
 </body>
 </html>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 1000,  // Durasi animasi dalam milidetik
+        easing: 'ease-in-out',  // Jenis easing
+        once: false  // Animasi berulang setiap kali elemen masuk viewport
+    });
+</script>
