@@ -148,3 +148,9 @@ button#submitButton:hover {
     object-fit: contain; /* Menjaga rasio gambar */
 }
 
+#result {
+    max-width: 80%;  /* Prevents it from stretching too wide */
+    margin: 20px auto;  /* Centers it horizontally */
+    padding: 15px;  /* Adds some space inside */
+    border-radius: 10px;  /* Optional: Soft rounded edges */
+}
