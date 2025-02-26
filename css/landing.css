@@ -157,6 +157,17 @@ ul li a {
     margin-right: auto;
 }
 
+.team-member {
+    text-align: center;
+}
+
+.team-member img {
+    width: 150px; /* Sesuaikan ukuran */
+    height: 150px; /* Pastikan ukuran sama */
+    object-fit: cover; /* Menjaga proporsi */
+    border-radius: 50%; /* Membuat lingkaran */
+}
+
 /* Testimonial Section */
 #testimonial {
     text-align: center;
@@ -202,6 +213,8 @@ ul li a {
 }
 
 .testimonial-content {
+    margin: 10px auto; /* Tambahkan jarak di luar */
+    max-width: 90%; /* Pastikan tidak terlalu melebar */
     display: flex;
     align-items: center;
     text-align: left;
@@ -212,6 +225,7 @@ ul li a {
     height: 120px;
     border-radius: 50%;
     margin-right: 20px;
+    object-fit: cover; /* Memastikan gambar tidak terdistorsi */
 }
 
 .testimonial-text p {
