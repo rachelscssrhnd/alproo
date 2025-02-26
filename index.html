@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/landing.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -126,8 +127,8 @@
                 </div>
             </div>
             <!-- Navigation Buttons -->
-            <button id="prev-btn"</button>
-            <button id="next-btn"</button>
+            <button id="prev-btn"></button>
+            <button id="next-btn"></button>
         </div>
         <!-- Slide Indicator -->
         <div class="slide-indicator">
@@ -136,6 +137,7 @@
             <span class="dot"></span>
         </div>
     </section>
+    
 
     <!-- Connect with Us Section -->
     <section id="connect">
@@ -194,6 +196,19 @@
 </script>
 
 </body>
+
+<script>
+    var swiper = new Swiper(".testimonial-slider", {
+      loop: true,
+      speed: 500,
+      effect: "slide",
+      loopAdditionalSlides: 1,
+      navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+      },
+  });
+</script>
 
 <script>
     const wrapper = document.querySelector('.testimonial-wrapper');
